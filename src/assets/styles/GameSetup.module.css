@@ -1,0 +1,305 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    min-height: 100dvh;
+    padding: 20px 20px 0;
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    max-width: 500px;
+    margin: 0 auto;
+    overflow-y: auto;
+}
+
+/* ————— Header ————— */
+.header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.title {
+    font-size: 26px;
+    font-weight: 700;
+    margin: 0;
+    letter-spacing: -0.5px;
+}
+
+.subtitle {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin: 4px 0 0;
+    font-weight: 500;
+}
+
+/* ————— Config Row ————— */
+.configRow {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.configCard {
+    flex: 1;
+    background: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 10px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.configLabel {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-secondary);
+}
+
+.inputGroup {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.inputPrefix {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.configInput {
+    background: transparent;
+    border: none;
+    color: var(--text-primary);
+    font-size: 18px;
+    font-weight: 700;
+    width: 100%;
+    outline: none;
+    appearance: textfield;
+    -moz-appearance: textfield;
+}
+
+.configInput::-webkit-outer-spin-button,
+.configInput::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* ————— Table ————— */
+.tableSection {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 0;
+}
+
+.tableWrapper {
+    width: 100%;
+    aspect-ratio: 1.4 / 1;
+    position: relative;
+    max-width: 420px;
+}
+
+.tableOval {
+    position: absolute;
+    inset: 12%;
+    border-radius: 50%;
+    background: linear-gradient(180deg, #2c2c30 0%, #1c1c1f 100%);
+    border: 3px solid rgba(255, 255, 255, 0.06);
+    box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tableLabel {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.15);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+    text-align: center;
+    padding: 0 20px;
+}
+
+/* ————— Seats ————— */
+.seatSlot {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Occupied seat */
+.playerPill {
+    background: rgba(52, 199, 89, 0.15);
+    color: #34c759;
+    border: 1.5px solid rgba(52, 199, 89, 0.3);
+    padding: 6px 14px 6px 8px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s ease;
+    min-width: 70px;
+    backdrop-filter: blur(8px);
+}
+
+.playerPill:hover {
+    background: rgba(52, 199, 89, 0.25);
+    border-color: rgba(52, 199, 89, 0.5);
+}
+
+.playerPill:active {
+    transform: scale(0.95);
+}
+
+.playerInitial {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: rgba(52, 199, 89, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    color: #34c759;
+    flex-shrink: 0;
+}
+
+.playerName {
+    flex: 1;
+}
+
+.removeX {
+    display: none;
+    font-size: 15px;
+    font-weight: 700;
+    margin-left: 2px;
+    color: rgba(255, 59, 48, 0.8);
+}
+
+.playerPill:hover .removeX,
+.playerPill:active .removeX {
+    display: inline;
+}
+
+/* Empty seat */
+.addSeatBtn {
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--text-secondary);
+    border: 1.5px dashed rgba(255, 255, 255, 0.12);
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    font-size: 20px;
+    font-weight: 300;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.addSeatBtn:hover {
+    background: rgba(52, 199, 89, 0.1);
+    border-color: rgba(52, 199, 89, 0.3);
+    color: #34c759;
+    transform: scale(1.1);
+}
+
+.addSeatBtn:active {
+    transform: scale(0.95);
+}
+
+.addIcon {
+    font-size: 20px;
+    line-height: 1;
+}
+
+/* Inline name input */
+.addingWrap {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: var(--surface-color);
+    border-radius: 20px;
+    padding: 4px 6px 4px 12px;
+    border: 1.5px solid var(--primary-color);
+    box-shadow: 0 0 12px rgba(52, 199, 89, 0.15);
+}
+
+.nameInput {
+    background: transparent;
+    border: none;
+    color: var(--text-primary);
+    font-size: 13px;
+    font-weight: 500;
+    width: 72px;
+    outline: none;
+    padding: 6px 0;
+}
+
+.confirmBtn {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.2s;
+    flex-shrink: 0;
+}
+
+.confirmBtn:disabled {
+    opacity: 0.25;
+}
+
+/* ————— Footer / Start ————— */
+.footer {
+    padding: 16px 0 28px;
+}
+
+.startButton {
+    width: 100%;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 16px;
+    font-size: 17px;
+    font-weight: 700;
+    border-radius: 14px;
+    cursor: pointer;
+    letter-spacing: -0.2px;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 16px rgba(52, 199, 89, 0.25);
+}
+
+.startButton:disabled {
+    opacity: 0.25;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+.startButton:active:not(:disabled) {
+    transform: scale(0.98);
+    box-shadow: 0 2px 8px rgba(52, 199, 89, 0.3);
+}

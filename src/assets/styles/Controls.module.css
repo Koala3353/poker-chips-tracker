@@ -1,0 +1,233 @@
+/* ── Controls Bar ──────────────────────────────── */
+.container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(22, 22, 24, 0.92);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    padding: 14px 20px 28px 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    z-index: 100;
+}
+
+/* ── Info Bar ──────────────────────────────────── */
+.infoBar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    padding: 0 4px;
+}
+
+.potDisplay {
+    display: flex;
+    flex-direction: column;
+}
+
+.label {
+    font-size: 10px;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    letter-spacing: 1px;
+    font-weight: 600;
+}
+
+.value {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--primary-color);
+    letter-spacing: -0.5px;
+}
+
+.toCall {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+/* ── Showdown ──────────────────────────────────── */
+.showdown {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.instruction {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--primary-color);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 0.5;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0.5;
+    }
+}
+
+.nextHandBtn {
+    background: linear-gradient(135deg, #34c759, #28a745);
+    color: white;
+    border: none;
+    border-radius: 14px;
+    padding: 14px 28px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(50, 199, 89, 0.35);
+    transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.nextHandBtn:active {
+    transform: scale(0.97);
+}
+
+/* ── Action Buttons ───────────────────────────── */
+.actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.btn {
+    border: none;
+    border-radius: 14px;
+    padding: 14px 12px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    flex: 1;
+    transition: transform 0.1s, opacity 0.2s;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    min-width: 90px;
+    letter-spacing: 0.3px;
+}
+
+.btn:active {
+    transform: scale(0.96);
+}
+
+.btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Row layout */
+.fold,
+.check,
+.call {
+    flex: 1 1 calc(50% - 5px);
+}
+
+.fold {
+    background: linear-gradient(135deg, #ff3b30, #e63228);
+    color: white;
+}
+
+.check,
+.call {
+    background: linear-gradient(135deg, #34c759, #28a745);
+    color: white;
+}
+
+/* Desktop */
+@media (min-width: 768px) {
+    .actions {
+        flex-wrap: nowrap;
+    }
+
+    .fold,
+    .check,
+    .call {
+        flex: 1;
+    }
+
+    .raiseGroup {
+        flex: 2;
+        order: unset;
+    }
+}
+
+/* ── Raise Group ──────────────────────────────── */
+.raiseGroup {
+    display: flex;
+    flex: 1 1 100%;
+    gap: 8px;
+    align-items: center;
+    order: 3;
+}
+
+.input {
+    width: 0;
+    flex: 1;
+    min-width: 60px;
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.06);
+    color: white;
+    padding: 0 8px;
+    height: 50px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 600;
+    outline: none;
+    appearance: none;
+    -webkit-appearance: none;
+    transition: border-color 0.2s;
+}
+
+.input:focus {
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.raise {
+    background: linear-gradient(135deg, #ff9500, #e68600);
+    color: white;
+    flex: 1;
+}
+
+.raise:disabled {
+    opacity: 0.35;
+    background: var(--text-secondary);
+}
+
+.allIn {
+    background: linear-gradient(135deg, #5856d6, #af52de);
+    color: white;
+    flex: 1;
+    animation: allInPulse 2s infinite;
+}
+
+@keyframes allInPulse {
+
+    0%,
+    100% {
+        box-shadow: 0 0 0 0 rgba(88, 86, 214, 0.4);
+    }
+
+    50% {
+        box-shadow: 0 0 12px 2px rgba(88, 86, 214, 0.3);
+    }
+}
+
+.allIn:disabled {
+    opacity: 0.35;
+    background: var(--text-secondary);
+    animation: none;
+}

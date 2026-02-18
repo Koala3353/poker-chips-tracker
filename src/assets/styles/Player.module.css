@@ -1,0 +1,174 @@
+/* ── Player Card ─────────────────────────────── */
+.player {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    touch-action: manipulation;
+    z-index: 10;
+}
+
+/* ── Main Card ────────────────────────────────── */
+.card {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px 6px 6px;
+    background: rgba(30, 30, 32, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 40px;
+    min-width: 100px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+}
+
+.avatarRow {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* ── Avatar Circle ────────────────────────────── */
+.avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #2a2a2e, #3a3a3e);
+    border: 2px solid rgba(255, 255, 255, 0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-primary);
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+}
+
+/* ── Player Details ───────────────────────────── */
+.details {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    min-width: 0;
+}
+
+.name {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 70px;
+    line-height: 1.2;
+}
+
+.chips {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1.2;
+}
+
+/* ── Dealer Chip ──────────────────────────────── */
+.dealerChip {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    width: 18px;
+    height: 18px;
+    background: linear-gradient(135deg, #ffd700, #f0c000);
+    color: #1a1a1a;
+    border-radius: 50%;
+    font-size: 10px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+    border: 1.5px solid rgba(255, 215, 0, 0.6);
+}
+
+/* ── Bet Badge ────────────────────────────────── */
+.betBadge {
+    position: absolute;
+    top: -22px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(50, 199, 89, 0.15);
+    border: 1px solid rgba(50, 199, 89, 0.4);
+    padding: 2px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--primary-color);
+    white-space: nowrap;
+    z-index: 20;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+}
+
+/* ── All-In Badge ─────────────────────────────── */
+.allInBadge {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-12deg);
+    background: linear-gradient(135deg, #ff3b30, #ff6b5e);
+    color: white;
+    padding: 3px 10px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 1px;
+    border: 1.5px solid rgba(255, 255, 255, 0.3);
+    z-index: 30;
+    box-shadow: 0 2px 8px rgba(255, 59, 48, 0.5);
+}
+
+/* ── States ───────────────────────────────────── */
+
+/* Active player — green glow ring */
+.active .card {
+    border-color: var(--primary-color);
+    box-shadow:
+        0 0 0 1px var(--primary-color),
+        0 0 20px rgba(50, 199, 89, 0.3),
+        0 2px 12px rgba(0, 0, 0, 0.4);
+}
+
+.active .avatar {
+    background: linear-gradient(135deg, #1a3a22, #2a4a32);
+    border-color: var(--primary-color);
+}
+
+/* Selected — highlight for seat swapping */
+.selected .card {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px var(--primary-color), 0 0 20px rgba(50, 215, 75, 0.4);
+    transform: scale(1.05);
+}
+
+/* Folded — dim */
+.folded {
+    opacity: 0.4;
+    filter: grayscale(0.5);
+}
+
+.folded .card {
+    border-color: transparent;
+}
+
+/* Draggable */
+.draggable {
+    cursor: grab;
+}
+
+.draggable:active {
+    cursor: grabbing;
+}

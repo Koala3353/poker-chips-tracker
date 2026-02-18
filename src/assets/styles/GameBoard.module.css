@@ -1,0 +1,140 @@
+/* ── Game Board ────────────────────────────────── */
+.board {
+    width: 100vw;
+    height: 100vh;
+    background: radial-gradient(ellipse at center, #1a1a1e 0%, #0d0d0f 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+}
+
+/* ── Table ─────────────────────────────────────── */
+.table {
+    width: 88vw;
+    height: 52vh;
+    max-height: 560px;
+    max-width: 860px;
+    background: linear-gradient(145deg, #252528, #1e1e20);
+    border-radius: 200px;
+    border: 6px solid #2e2e32;
+    position: relative;
+    box-shadow:
+        inset 0 0 60px rgba(0, 0, 0, 0.5),
+        0 0 80px rgba(0, 0, 0, 0.3),
+        0 0 0 1px rgba(255, 255, 255, 0.03);
+    margin-bottom: 100px;
+}
+
+/* Subtle inner highlight ring */
+.table::after {
+    content: '';
+    position: absolute;
+    inset: 6px;
+    border-radius: 194px;
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    pointer-events: none;
+}
+
+/* ── Pot Area ──────────────────────────────────── */
+.potContainer {
+    position: absolute;
+    top: 38%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+}
+
+.potLabel {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.potValue {
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--text-primary);
+    letter-spacing: -0.5px;
+}
+
+.stageLabel {
+    margin-top: 4px;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--primary-color);
+    background: rgba(50, 199, 89, 0.1);
+    border: 1px solid rgba(50, 199, 89, 0.25);
+    padding: 3px 10px;
+    border-radius: 20px;
+}
+
+/* ── Seat Containers ──────────────────────────── */
+.seatContainer {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+}
+
+/* Empty seat ghost circle */
+.emptySeat {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1.5px dashed rgba(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.25s ease;
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.emptySeat:hover {
+    border-color: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.04);
+}
+
+/* Highlighted when drag/select active */
+.highlight {
+    border-color: var(--primary-color);
+    background: rgba(50, 215, 75, 0.1);
+    transform: scale(1.15);
+    box-shadow: 0 0 12px rgba(50, 215, 75, 0.2);
+}
+
+.plusIcon {
+    color: var(--text-secondary);
+    font-size: 20px;
+    font-weight: 300;
+}
+
+/* ── Side Pots ────────────────────────────────── */
+.sidePots {
+    display: flex;
+    gap: 6px;
+    margin-top: 6px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.sidePot {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 2px 8px;
+    border-radius: 12px;
+    white-space: nowrap;
+}

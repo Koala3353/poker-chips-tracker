@@ -1,0 +1,208 @@
+.toggleButton {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+    padding: 8px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    cursor: pointer;
+    z-index: 200;
+    backdrop-filter: blur(5px);
+}
+
+.menu {
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    background-color: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 16px;
+    width: 200px;
+    z-index: 200;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.menu h3 {
+    margin: 0 0 12px 0;
+    font-size: 14px;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 8px;
+}
+
+.grid {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.actionBtn {
+    background-color: rgba(255, 255, 255, 0.05);
+    border: none;
+    color: var(--text-primary);
+    padding: 16px;
+    /* Larger touch target */
+    border-radius: 12px;
+    cursor: pointer;
+    text-align: left;
+    font-size: 16px;
+    /* Larger text */
+}
+
+.actionBtn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.danger {
+    color: white;
+    background-color: var(--destructive-color);
+    /* Solid red */
+    border: 1px solid var(--destructive-color);
+    margin-top: 24px;
+    /* Separate from other actions */
+    font-weight: 800;
+    box-shadow: 0 4px 12px rgba(255, 59, 48, 0.3);
+}
+
+.winnerModalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 300;
+}
+
+.winnerModal {
+    background-color: var(--surface-color);
+    padding: 20px;
+    border-radius: 16px;
+    width: 80%;
+    max-width: 300px;
+}
+
+.playerList {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 16px 0;
+}
+
+.playerBtn {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 16px;
+    /* Larger touch target */
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.cancelBtn {
+    width: 100%;
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+/* Manage Players Panel */
+.managePanel {
+    margin-top: 12px;
+    border-top: 1px solid var(--border-color);
+    padding-top: 8px;
+}
+
+.playerRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 4px;
+    font-size: 14px;
+    color: var(--text-primary);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.removeBtn {
+    background: var(--destructive-color);
+    color: white;
+    border: none;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.addRow {
+    display: flex;
+    gap: 6px;
+    margin-top: 8px;
+    align-items: center;
+}
+
+.addInput {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    padding: 8px;
+    border-radius: 8px;
+    font-size: 13px;
+    outline: none;
+}
+
+.addInput:focus {
+    border-color: var(--primary-color);
+}
+
+.addBtn {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.addBtn:disabled {
+    opacity: 0.3;
+}
+
+.container {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 200;
+}
+
+.menuBtn {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
