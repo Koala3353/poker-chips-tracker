@@ -1,16 +1,45 @@
-# React + Vite
+# 🃏 Poker Chips Tracker
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A sleek, real-time poker chip tracker for Texas Hold'em home games. Built for mobile-first landscape play — no scrolling, no distractions.
 
-Currently, two official plugins are available:
+## ✨ Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **10-Seat Table** — Tap to add players, drag to rearrange seats
+- **Auto Blinds** — Configurable small/big blind with automatic posting
+- **Betting Controls** — Fold, Check, Call, Raise with intuitive touch buttons
+- **All-In Support** — Bets auto-cap at player's chip count, purple All-In button
+- **Side Pots** — Automatic side pot calculation when players go all-in with different stacks
+- **Showdown** — Tap a player to award the pot; side pots distribute to eligible players only
+- **Auto-Advance** — When all remaining players are all-in, streets auto-deal through to showdown
+- **Responsive Design** — Full-screen landscape on iPhone/Android, proper layout on laptop/desktop
+- **PWA Ready** — Add to home screen for an app-like experience
 
-## React Compiler
+## 🛠️ Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **React 19** + **Vite**
+- **CSS Modules** with glassmorphism & gradient design
+- **Framer Motion** for drag interactions
+- **No backend** — all state lives in React context + localStorage
 
-## Expanding the ESLint configuration
+## 🚀 Getting Started
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```bash
+# Install dependencies
+npm install
+
+# Run dev server
+npm run dev
+
+# Build for production
+npm run build
+```
+
+## 📱 Usage
+
+1. **Setup** — Set buy-in and blind amounts, tap seats to add players
+2. **Play** — Use the bottom action bar to Fold / Check / Call / Raise / All-In
+3. **Showdown** — Tap the winning player to award the pot, then "Start Next Hand"
+
+## 📄 License
+
+MIT
