@@ -1,13 +1,11 @@
 /* ── Controls Bar ──────────────────────────────── */
 .container {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    flex-shrink: 0;
     background: rgba(22, 22, 24, 0.92);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    padding: 14px 20px 28px 20px;
+    padding: 6px 16px;
+    padding-bottom: max(6px, var(--sai-bottom));
     border-top: 1px solid rgba(255, 255, 255, 0.06);
     z-index: 100;
 }
@@ -17,7 +15,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 12px;
+    margin-bottom: 6px;
     padding: 0 4px;
 }
 
@@ -27,7 +25,7 @@
 }
 
 .label {
-    font-size: 10px;
+    font-size: 9px;
     text-transform: uppercase;
     color: var(--text-secondary);
     letter-spacing: 1px;
@@ -35,14 +33,14 @@
 }
 
 .value {
-    font-size: 22px;
+    font-size: 18px;
     font-weight: 800;
     color: var(--primary-color);
     letter-spacing: -0.5px;
 }
 
 .toCall {
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 500;
     color: var(--text-secondary);
 }
@@ -56,7 +54,7 @@
 }
 
 .instruction {
-    font-size: 18px;
+    font-size: 14px;
     font-weight: 700;
     color: var(--primary-color);
     text-transform: uppercase;
@@ -82,9 +80,9 @@
     background: linear-gradient(135deg, #34c759, #28a745);
     color: white;
     border: none;
-    border-radius: 14px;
-    padding: 14px 28px;
-    font-size: 16px;
+    border-radius: 12px;
+    padding: 10px 24px;
+    font-size: 14px;
     font-weight: 700;
     cursor: pointer;
     box-shadow: 0 4px 16px rgba(50, 199, 89, 0.35);
@@ -98,15 +96,15 @@
 /* ── Action Buttons ───────────────────────────── */
 .actions {
     display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
+    gap: 6px;
+    flex-wrap: nowrap;
 }
 
 .btn {
     border: none;
-    border-radius: 14px;
-    padding: 14px 12px;
-    font-size: 16px;
+    border-radius: 10px;
+    padding: 10px 8px;
+    font-size: 13px;
     font-weight: 700;
     cursor: pointer;
     flex: 1;
@@ -114,8 +112,9 @@
     user-select: none;
     -webkit-user-select: none;
     -webkit-tap-highlight-color: transparent;
-    min-width: 90px;
+    min-width: 0;
     letter-spacing: 0.3px;
+    white-space: nowrap;
 }
 
 .btn:active {
@@ -128,63 +127,39 @@
     transform: none;
 }
 
-/* Row layout */
-.fold,
-.check,
-.call {
-    flex: 1 1 calc(50% - 5px);
-}
-
 .fold {
     background: linear-gradient(135deg, #ff3b30, #e63228);
     color: white;
+    flex: 0.8;
 }
 
 .check,
 .call {
     background: linear-gradient(135deg, #34c759, #28a745);
     color: white;
-}
-
-/* Desktop */
-@media (min-width: 768px) {
-    .actions {
-        flex-wrap: nowrap;
-    }
-
-    .fold,
-    .check,
-    .call {
-        flex: 1;
-    }
-
-    .raiseGroup {
-        flex: 2;
-        order: unset;
-    }
+    flex: 1;
 }
 
 /* ── Raise Group ──────────────────────────────── */
 .raiseGroup {
     display: flex;
-    flex: 1 1 100%;
-    gap: 8px;
+    flex: 2;
+    gap: 6px;
     align-items: center;
-    order: 3;
 }
 
 .input {
     width: 0;
     flex: 1;
-    min-width: 60px;
-    border-radius: 14px;
+    min-width: 50px;
+    border-radius: 10px;
     border: 1px solid rgba(255, 255, 255, 0.08);
     background: rgba(255, 255, 255, 0.06);
     color: white;
-    padding: 0 8px;
-    height: 50px;
+    padding: 0 6px;
+    height: 40px;
     text-align: center;
-    font-size: 18px;
+    font-size: 15px;
     font-weight: 600;
     outline: none;
     appearance: none;

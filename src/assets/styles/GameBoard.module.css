@@ -1,38 +1,37 @@
 /* ── Game Board ────────────────────────────────── */
 .board {
-    width: 100vw;
-    height: 100vh;
+    width: 100dvw;
+    height: 100dvh;
     background: radial-gradient(ellipse at center, #1a1a1e 0%, #0d0d0f 100%);
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column;
     overflow: hidden;
     position: relative;
+    padding: var(--sai-top) var(--sai-right) 0 var(--sai-left);
 }
 
 /* ── Table ─────────────────────────────────────── */
 .table {
-    width: 88vw;
-    height: 52vh;
-    max-height: 560px;
-    max-width: 860px;
+    flex: 1;
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
     background: linear-gradient(145deg, #252528, #1e1e20);
     border-radius: 200px;
-    border: 6px solid #2e2e32;
+    border: 4px solid #2e2e32;
     position: relative;
     box-shadow:
         inset 0 0 60px rgba(0, 0, 0, 0.5),
         0 0 80px rgba(0, 0, 0, 0.3),
         0 0 0 1px rgba(255, 255, 255, 0.03);
-    margin-bottom: 100px;
 }
 
 /* Subtle inner highlight ring */
 .table::after {
     content: '';
     position: absolute;
-    inset: 6px;
-    border-radius: 194px;
+    inset: 4px;
+    border-radius: 196px;
     border: 1px solid rgba(255, 255, 255, 0.04);
     pointer-events: none;
 }
@@ -47,11 +46,11 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 2px;
+    gap: 1px;
 }
 
 .potLabel {
-    font-size: 10px;
+    font-size: 9px;
     font-weight: 600;
     color: var(--text-secondary);
     letter-spacing: 2px;
@@ -59,22 +58,22 @@
 }
 
 .potValue {
-    font-size: 32px;
+    font-size: 24px;
     font-weight: 800;
     color: var(--text-primary);
     letter-spacing: -0.5px;
 }
 
 .stageLabel {
-    margin-top: 4px;
-    font-size: 10px;
+    margin-top: 2px;
+    font-size: 9px;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 1.5px;
     color: var(--primary-color);
     background: rgba(50, 199, 89, 0.1);
     border: 1px solid rgba(50, 199, 89, 0.25);
-    padding: 3px 10px;
+    padding: 2px 8px;
     border-radius: 20px;
 }
 
@@ -89,8 +88,8 @@
 
 /* Empty seat ghost circle */
 .emptySeat {
-    width: 40px;
-    height: 40px;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
     border: 1.5px dashed rgba(255, 255, 255, 0.1);
     display: flex;
@@ -115,26 +114,26 @@
 
 .plusIcon {
     color: var(--text-secondary);
-    font-size: 20px;
+    font-size: 16px;
     font-weight: 300;
 }
 
 /* ── Side Pots ────────────────────────────────── */
 .sidePots {
     display: flex;
-    gap: 6px;
-    margin-top: 6px;
+    gap: 4px;
+    margin-top: 4px;
     flex-wrap: wrap;
     justify-content: center;
 }
 
 .sidePot {
-    font-size: 10px;
+    font-size: 9px;
     font-weight: 600;
     color: var(--text-primary);
     background: rgba(255, 255, 255, 0.06);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 2px 8px;
+    padding: 1px 6px;
     border-radius: 12px;
     white-space: nowrap;
 }

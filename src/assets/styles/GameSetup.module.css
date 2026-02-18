@@ -1,56 +1,61 @@
 .container {
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
-    min-height: 100dvh;
-    padding: 20px 20px 0;
+    height: 100dvh;
+    padding: 12px 16px 0;
     background-color: var(--bg-color);
     color: var(--text-primary);
-    max-width: 500px;
+    max-width: 100%;
     margin: 0 auto;
-    overflow-y: auto;
+    overflow: hidden;
 }
 
 /* ————— Header ————— */
 .header {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 8px;
+    flex-shrink: 0;
 }
 
 .title {
-    font-size: 26px;
+    font-size: 20px;
     font-weight: 700;
     margin: 0;
     letter-spacing: -0.5px;
 }
 
 .subtitle {
-    font-size: 13px;
+    font-size: 11px;
     color: var(--text-secondary);
-    margin: 4px 0 0;
+    margin: 2px 0 0;
     font-weight: 500;
 }
 
 /* ————— Config Row ————— */
 .configRow {
     display: flex;
-    gap: 10px;
-    margin-bottom: 16px;
+    gap: 8px;
+    margin-bottom: 8px;
+    flex-shrink: 0;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
 }
 
 .configCard {
     flex: 1;
     background: var(--surface-color);
     border: 1px solid var(--border-color);
-    border-radius: 12px;
-    padding: 10px 12px;
+    border-radius: 10px;
+    padding: 6px 10px;
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 2px;
 }
 
 .configLabel {
-    font-size: 10px;
+    font-size: 9px;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -64,7 +69,7 @@
 }
 
 .inputPrefix {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 600;
     color: var(--text-secondary);
 }
@@ -73,7 +78,7 @@
     background: transparent;
     border: none;
     color: var(--text-primary);
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 700;
     width: 100%;
     outline: none;
@@ -94,13 +99,15 @@
     align-items: center;
     justify-content: center;
     min-height: 0;
+    overflow: hidden;
 }
 
 .tableWrapper {
     width: 100%;
-    aspect-ratio: 1.4 / 1;
+    height: 100%;
     position: relative;
-    max-width: 420px;
+    max-width: 520px;
+    max-height: 340px;
 }
 
 .tableOval {
@@ -118,13 +125,13 @@
 }
 
 .tableLabel {
-    font-size: 11px;
+    font-size: 10px;
     color: rgba(255, 255, 255, 0.15);
     text-transform: uppercase;
     letter-spacing: 1px;
     font-weight: 600;
     text-align: center;
-    padding: 0 20px;
+    padding: 0 16px;
 }
 
 /* ————— Seats ————— */
@@ -142,17 +149,17 @@
     background: rgba(52, 199, 89, 0.15);
     color: #34c759;
     border: 1.5px solid rgba(52, 199, 89, 0.3);
-    padding: 6px 14px 6px 8px;
-    border-radius: 20px;
-    font-size: 13px;
+    padding: 4px 10px 4px 6px;
+    border-radius: 18px;
+    font-size: 11px;
     font-weight: 600;
     cursor: pointer;
     white-space: nowrap;
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 5px;
     transition: all 0.2s ease;
-    min-width: 70px;
+    min-width: 60px;
     backdrop-filter: blur(8px);
 }
 
@@ -166,14 +173,14 @@
 }
 
 .playerInitial {
-    width: 24px;
-    height: 24px;
+    width: 20px;
+    height: 20px;
     border-radius: 50%;
     background: rgba(52, 199, 89, 0.25);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 12px;
+    font-size: 10px;
     font-weight: 700;
     color: #34c759;
     flex-shrink: 0;
@@ -185,7 +192,7 @@
 
 .removeX {
     display: none;
-    font-size: 15px;
+    font-size: 13px;
     font-weight: 700;
     margin-left: 2px;
     color: rgba(255, 59, 48, 0.8);
@@ -201,10 +208,10 @@
     background: rgba(255, 255, 255, 0.04);
     color: var(--text-secondary);
     border: 1.5px dashed rgba(255, 255, 255, 0.12);
-    width: 44px;
-    height: 44px;
+    width: 34px;
+    height: 34px;
     border-radius: 50%;
-    font-size: 20px;
+    font-size: 16px;
     font-weight: 300;
     cursor: pointer;
     display: flex;
@@ -225,7 +232,7 @@
 }
 
 .addIcon {
-    font-size: 20px;
+    font-size: 16px;
     line-height: 1;
 }
 
@@ -235,8 +242,8 @@
     align-items: center;
     gap: 4px;
     background: var(--surface-color);
-    border-radius: 20px;
-    padding: 4px 6px 4px 12px;
+    border-radius: 18px;
+    padding: 3px 5px 3px 10px;
     border: 1.5px solid var(--primary-color);
     box-shadow: 0 0 12px rgba(52, 199, 89, 0.15);
 }
@@ -245,21 +252,21 @@
     background: transparent;
     border: none;
     color: var(--text-primary);
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 500;
-    width: 72px;
+    width: 64px;
     outline: none;
-    padding: 6px 0;
+    padding: 4px 0;
 }
 
 .confirmBtn {
     background: var(--primary-color);
     color: white;
     border: none;
-    width: 28px;
-    height: 28px;
+    width: 24px;
+    height: 24px;
     border-radius: 50%;
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 700;
     cursor: pointer;
     display: flex;
@@ -275,7 +282,12 @@
 
 /* ————— Footer / Start ————— */
 .footer {
-    padding: 16px 0 28px;
+    padding: 8px 0;
+    padding-bottom: max(8px, env(safe-area-inset-bottom, 0px));
+    flex-shrink: 0;
+    max-width: 500px;
+    margin: 0 auto;
+    width: 100%;
 }
 
 .startButton {
@@ -283,10 +295,10 @@
     background: var(--primary-color);
     color: white;
     border: none;
-    padding: 16px;
-    font-size: 17px;
+    padding: 12px;
+    font-size: 15px;
     font-weight: 700;
-    border-radius: 14px;
+    border-radius: 12px;
     cursor: pointer;
     letter-spacing: -0.2px;
     transition: all 0.2s ease;
