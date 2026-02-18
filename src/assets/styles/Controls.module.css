@@ -206,3 +206,36 @@
     background: var(--text-secondary);
     animation: none;
 }
+
+/* ── Larger screens (laptop/desktop) ─────────── */
+@media (min-height: 500px) {
+    .container {
+        padding: 10px 20px;
+        padding-bottom: max(14px, var(--sai-bottom));
+    }
+
+    .value {
+        font-size: 22px;
+    }
+
+    .btn {
+        padding: 14px 12px;
+        font-size: 16px;
+        border-radius: 14px;
+    }
+
+    .input {
+        height: 50px;
+        font-size: 18px;
+        border-radius: 14px;
+    }
+
+    .nextHandBtn {
+        padding: 14px 28px;
+        font-size: 16px;
+    }
+
+    .instruction {
+        font-size: 18px;
+    }
+}

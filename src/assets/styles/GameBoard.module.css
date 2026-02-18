@@ -13,7 +13,7 @@
 /* ── Table ─────────────────────────────────────── */
 .table {
     flex: 1;
-    width: 100%;
+    width: 92%;
     max-width: 900px;
     margin: 0 auto;
     background: linear-gradient(145deg, #252528, #1e1e20);
@@ -24,6 +24,17 @@
         inset 0 0 60px rgba(0, 0, 0, 0.5),
         0 0 80px rgba(0, 0, 0, 0.3),
         0 0 0 1px rgba(255, 255, 255, 0.03);
+}
+
+/* On taller screens (laptops/desktops), cap the table height to maintain oval shape */
+@media (min-height: 500px) {
+    .table {
+        flex: none;
+        height: 55vh;
+        max-height: 520px;
+        margin-top: auto;
+        margin-bottom: auto;
+    }
 }
 
 /* Subtle inner highlight ring */
@@ -50,7 +61,7 @@
 }
 
 .potLabel {
-    font-size: 9px;
+    font-size: 10px;
     font-weight: 600;
     color: var(--text-secondary);
     letter-spacing: 2px;
@@ -58,22 +69,29 @@
 }
 
 .potValue {
-    font-size: 24px;
+    font-size: 28px;
     font-weight: 800;
     color: var(--text-primary);
     letter-spacing: -0.5px;
 }
 
+/* Larger pot text on tall screens */
+@media (min-height: 500px) {
+    .potValue {
+        font-size: 32px;
+    }
+}
+
 .stageLabel {
-    margin-top: 2px;
-    font-size: 9px;
+    margin-top: 3px;
+    font-size: 10px;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 1.5px;
     color: var(--primary-color);
     background: rgba(50, 199, 89, 0.1);
     border: 1px solid rgba(50, 199, 89, 0.25);
-    padding: 2px 8px;
+    padding: 2px 10px;
     border-radius: 20px;
 }
 
@@ -88,8 +106,8 @@
 
 /* Empty seat ghost circle */
 .emptySeat {
-    width: 32px;
-    height: 32px;
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
     border: 1.5px dashed rgba(255, 255, 255, 0.1);
     display: flex;
@@ -114,26 +132,26 @@
 
 .plusIcon {
     color: var(--text-secondary);
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 300;
 }
 
 /* ── Side Pots ────────────────────────────────── */
 .sidePots {
     display: flex;
-    gap: 4px;
-    margin-top: 4px;
+    gap: 5px;
+    margin-top: 5px;
     flex-wrap: wrap;
     justify-content: center;
 }
 
 .sidePot {
-    font-size: 9px;
+    font-size: 10px;
     font-weight: 600;
     color: var(--text-primary);
     background: rgba(255, 255, 255, 0.06);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 1px 6px;
+    padding: 2px 7px;
     border-radius: 12px;
     white-space: nowrap;
 }

@@ -172,3 +172,44 @@
 .draggable:active {
     cursor: grabbing;
 }
+
+/* ── Larger screens (laptop/desktop) ─────────── */
+@media (min-height: 500px) {
+    .card {
+        gap: 8px;
+        padding: 6px 12px 6px 6px;
+        min-width: 100px;
+    }
+
+    .avatar {
+        width: 36px;
+        height: 36px;
+        font-size: 16px;
+    }
+
+    .name {
+        font-size: 11px;
+        max-width: 70px;
+    }
+
+    .chips {
+        font-size: 14px;
+    }
+
+    .dealerChip {
+        width: 18px;
+        height: 18px;
+        font-size: 10px;
+    }
+
+    .betBadge {
+        top: -22px;
+        font-size: 12px;
+        padding: 2px 10px;
+    }
+
+    .allInBadge {
+        font-size: 10px;
+        padding: 3px 10px;
+    }
+}
