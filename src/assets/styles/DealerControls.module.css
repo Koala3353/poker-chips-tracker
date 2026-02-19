@@ -206,3 +206,8 @@
     font-weight: 600;
     cursor: pointer;
 }
+.selected {
+    background-color: var(--success-color, #4cd964);
+    border: 2px solid #fff;
+    box-shadow: 0 0 10px rgba(76, 217, 100, 0.5);
+}

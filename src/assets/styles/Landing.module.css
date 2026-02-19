@@ -1,7 +1,7 @@
 /* ── Landing Page ──────────────────────────────── */
 .landing {
     width: 100%;
-    min-height: 100dvh;
+    height: 100dvh;
     background: var(--bg-color);
     color: var(--text-primary);
     display: flex;

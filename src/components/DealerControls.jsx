@@ -3,10 +3,13 @@ import { useGame } from '../context/GameContext';
 import styles from '../assets/styles/DealerControls.module.css';
 
 const DealerControls = () => {
-    const { gameState, nextStage, awardPot, resetGame, addPlayer, removePlayer } = useGame();
+    const { gameState, nextStage, awardPot, resetGame, addPlayer, removePlayer, updatePlayerChips } = useGame();
     const [isOpen, setIsOpen] = useState(false);
     const [showWinnerSelect, setShowWinnerSelect] = useState(false);
+    const [selectedWinners, setSelectedWinners] = useState([]);
     const [showManagePlayers, setShowManagePlayers] = useState(false);
+    const [editingPlayerId, setEditingPlayerId] = useState(null);
+    const [editChipsAmount, setEditChipsAmount] = useState('');
     const [newPlayerName, setNewPlayerName] = useState('');
     const [newBuyIn, setNewBuyIn] = useState('1000');
 
@@ -21,10 +24,19 @@ const DealerControls = () => {
         setIsOpen(false);
     };
 
-    const handleAwardPot = (playerId) => {
-        awardPot(playerId);
-        setShowWinnerSelect(false);
-        setIsOpen(false);
+    const handleAwardPot = () => {
+        if (selectedWinners.length > 0) {
+            awardPot(selectedWinners);
+            setShowWinnerSelect(false);
+            setSelectedWinners([]);
+            setIsOpen(false);
+        }
+    };
+
+    const toggleWinnerSelection = (id) => {
+        setSelectedWinners(prev =>
+            prev.includes(id) ? prev.filter(p => p !== id) : [...prev, id]
+        );
     };
 
     const handleAddPlayer = () => {
@@ -68,7 +80,36 @@ const DealerControls = () => {
                             <div className={styles.playerList}>
                                 {gameState.players.map(p => (
                                     <div key={p.id} className={styles.playerRow}>
-                                        <span>{p.name} — ${p.chips}</span>
+                                        {editingPlayerId === p.id ? (
+                                            <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flex: 1 }}>
+                                                <span>{p.name}</span>
+                                                <input
+                                                    type="number"
+                                                    value={editChipsAmount}
+                                                    onChange={(e) => setEditChipsAmount(e.target.value)}
+                                                    className={styles.addInput}
+                                                    style={{ width: '80px', padding: '4px' }}
+                                                    autoFocus
+                                                />
+                                                <button
+                                                    onClick={() => {
+                                                        updatePlayerChips(p.id, editChipsAmount);
+                                                        setEditingPlayerId(null);
+                                                    }}
+                                                    className={styles.addBtn}
+                                                >
+                                                    Save
+                                                </button>
+                                            </div>
+                                        ) : (
+                                            <span onClick={() => {
+                                                setEditingPlayerId(p.id);
+                                                setEditChipsAmount(p.chips);
+                                            }} style={{ cursor: 'pointer', textDecoration: 'underline dotted' }}>
+                                                {p.name} — ${p.chips}
+                                            </span>
+                                        )}
+
                                         {gameState.gameStage === 'setup' && (
                                             <button
                                                 onClick={() => removePlayer(p.id)}
@@ -111,19 +152,38 @@ const DealerControls = () => {
             {showWinnerSelect && (
                 <div className={styles.winnerModalOverlay}>
                     <div className={styles.winnerModal}>
-                        <h3>Select Winner</h3>
+                        <h3>Select Winner(s)</h3>
+                        <p style={{ fontSize: '12px', color: '#888', marginBottom: '16px' }}>
+                            Select multiple players for a split pot.
+                        </p>
                         <div className={styles.playerList}>
                             {gameState.players.map(p => (
                                 <button
                                     key={p.id}
-                                    onClick={() => handleAwardPot(p.id)}
-                                    className={styles.playerBtn}
+                                    onClick={() => toggleWinnerSelection(p.id)}
+                                    className={`${styles.playerBtn} ${selectedWinners.includes(p.id) ? styles.selected : ''}`}
+                                    style={selectedWinners.includes(p.id) ? {
+                                        backgroundColor: 'var(--primary-color)',
+                                        color: '#000',
+                                        borderColor: 'var(--primary-color)'
+                                    } : {}}
                                 >
                                     {p.name}
+                                    {selectedWinners.includes(p.id) && ' ✓'}
                                 </button>
                             ))}
                         </div>
-                        <button onClick={() => setShowWinnerSelect(false)} className={styles.cancelBtn}>Cancel</button>
+                        <div style={{ display: 'flex', gap: '8px', marginTop: '16px' }}>
+                            <button onClick={() => setShowWinnerSelect(false)} className={styles.cancelBtn}>Cancel</button>
+                            <button
+                                onClick={handleAwardPot}
+                                className={styles.actionBtn}
+                                disabled={selectedWinners.length === 0}
+                                style={{ flex: 1, background: 'var(--primary-color)', color: '#000' }}
+                            >
+                                Confirm Winner{selectedWinners.length > 1 ? 's' : ''}
+                            </button>
+                        </div>
                     </div>
                 </div>
             )}

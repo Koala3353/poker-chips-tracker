@@ -32,6 +32,11 @@ export const GameProvider = ({ children }) => {
         return saved ? JSON.parse(saved) : { totalHands: 0, biggestPot: 0 };
     });
 
+    // Helper to persist state changes
+    const persistState = (newState) => {
+        setGameState(newState);
+    };
+
     // Persist state changes
     useEffect(() => {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(gameState));
@@ -182,6 +187,18 @@ export const GameProvider = ({ children }) => {
         setGameState(prev => ({ ...prev, smallBlind: small, bigBlind: big }));
     };
 
+    const updatePlayerChips = (playerId, newAmount) => {
+        setGameState(prev => {
+            const updatedPlayers = prev.players.map(p => {
+                if (p.id === playerId) {
+                    return { ...p, chips: parseFloat(newAmount) };
+                }
+                return p;
+            });
+            return { ...prev, players: updatedPlayers };
+        });
+    };
+
     // Helper to find next active player
     const getNextActivePlayer = (currentIndex, players) => {
         let nextIndex = (currentIndex + 1) % players.length;
@@ -196,8 +213,12 @@ export const GameProvider = ({ children }) => {
         return nextIndex;
     };
 
-    const startGame = () => {
+    const startGame = (initialSb, initialBb) => {
         if (gameState.players.length < 2) return;
+
+        // Use provided values or current state
+        const sbValue = initialSb !== undefined ? initialSb : gameState.smallBlind;
+        const bbValue = initialBb !== undefined ? initialBb : gameState.bigBlind;
 
         // Ensure all players have a seat index and sort by seat
         const seatedPlayers = gameState.players
@@ -235,7 +256,7 @@ export const GameProvider = ({ children }) => {
         seatedPlayers.forEach(p => { contributions[p.id] = 0; });
 
         if (sbPlayer.status !== 'out') {
-            const sbAmount = Math.min(gameState.smallBlind, sbPlayer.chips);
+            const sbAmount = Math.min(sbValue, sbPlayer.chips);
             sbPlayer.chips -= sbAmount;
             sbPlayer.currentBet = sbAmount;
             if (sbPlayer.chips === 0) sbPlayer.status = 'all-in';
@@ -244,7 +265,7 @@ export const GameProvider = ({ children }) => {
         }
 
         if (bbPlayer.status !== 'out') {
-            const bbAmount = Math.min(gameState.bigBlind, bbPlayer.chips);
+            const bbAmount = Math.min(bbValue, bbPlayer.chips);
             bbPlayer.chips -= bbAmount;
             bbPlayer.currentBet = bbAmount;
             if (bbPlayer.chips === 0) bbPlayer.status = 'all-in';
@@ -260,7 +281,9 @@ export const GameProvider = ({ children }) => {
             pot: currentPot,
             pots: [],
             handContributions: contributions,
-            currentBet: prev.bigBlind,
+            currentBet: bbValue,
+            smallBlind: sbValue,
+            bigBlind: bbValue,
             gameStage: 'preflop',
             isTransitioning: false,
         }));
@@ -582,7 +605,7 @@ export const GameProvider = ({ children }) => {
         });
     };
 
-    const awardPot = (winnerId) => {
+    const awardPot = (winnerIds) => {
         setGameState(prev => {
             // Calculate pots if not already done
             let pots = prev.pots.length > 0 ? [...prev.pots] :
@@ -591,16 +614,31 @@ export const GameProvider = ({ children }) => {
             let updatedPlayers = [...prev.players];
             let totalAwarded = 0;
 
-            // Award all pots where the winner is eligible
+            // Ensure winnerIds is an array
+            const winners = Array.isArray(winnerIds) ? winnerIds : [winnerIds];
+
+            // Award all pots where ANY of the winners are eligible
             const remainingPots = [];
+
             for (const pot of pots) {
-                if (pot.eligible.includes(winnerId)) {
-                    // Award this pot to the winner
-                    const winnerIdx = updatedPlayers.findIndex(p => p.id === winnerId);
-                    updatedPlayers[winnerIdx] = {
-                        ...updatedPlayers[winnerIdx],
-                        chips: updatedPlayers[winnerIdx].chips + pot.amount
-                    };
+                // Find which of the selected winners are eligible for this specific side pot
+                const eligibleWinners = winners.filter(wId => pot.eligible.includes(wId));
+
+                if (eligibleWinners.length > 0) {
+                    // Split pot among eligible winners
+                    const splitAmount = Math.floor(pot.amount / eligibleWinners.length);
+                    const remainder = pot.amount % eligibleWinners.length;
+
+                    eligibleWinners.forEach((wId, index) => {
+                        const winnerIdx = updatedPlayers.findIndex(p => p.id === wId);
+                        // Give remainder to the first eligible winner (simple rule)
+                        const extra = index === 0 ? remainder : 0;
+
+                        updatedPlayers[winnerIdx] = {
+                            ...updatedPlayers[winnerIdx],
+                            chips: updatedPlayers[winnerIdx].chips + splitAmount + extra
+                        };
+                    });
                     totalAwarded += pot.amount;
                 } else {
                     remainingPots.push(pot);
@@ -751,7 +789,8 @@ export const GameProvider = ({ children }) => {
         nextStage,
         awardPot,
         movePlayerToSeat,
-        nextHand
+        nextHand,
+        updatePlayerChips
     };
 
     return <GameContext.Provider value={value}>{children}</GameContext.Provider>;

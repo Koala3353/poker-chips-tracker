@@ -16,12 +16,21 @@ const Controls = () => {
     // Can the player afford the full call?
     const canAffordCall = playerChips >= toCall;
     // Effective call amount (capped at chips)
-    const effectiveCall = Math.min(toCall, playerChips);
+    // const effectiveCall = Math.min(toCall, playerChips); // Unused
 
     // Min raise: must put in at least toCall + bigBlind from stack
     const minRaise = gameState.bigBlind;
     const minRaiseTotal = toCall + minRaise;
     const canAffordRaise = playerChips >= minRaiseTotal;
+
+    React.useEffect(() => {
+        if (canAffordRaise) {
+            setRaiseAmount(minRaiseTotal.toString());
+        } else {
+            setRaiseAmount('');
+        }
+    }, [minRaiseTotal, canAffordRaise]);
+
 
     const handleFold = () => fold();
     const handleCheck = () => check();
@@ -132,6 +141,8 @@ const Controls = () => {
                         </button>
                         <input
                             type="number"
+                            inputMode="decimal"
+                            pattern="[0-9]*"
                             value={raiseAmount}
                             onChange={(e) => setRaiseAmount(e.target.value)}
                             placeholder={`Min ${minRaiseTotal}`}
