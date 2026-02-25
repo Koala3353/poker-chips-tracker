@@ -13,8 +13,8 @@
 /* ── Table ─────────────────────────────────────── */
 .table {
     flex: 1;
-    width: 92%;
-    max-width: 900px;
+    width: 96%;
+    max-width: 1200px;
     margin: 0 auto;
     background: linear-gradient(145deg, #182820, var(--surface-color));
     border-radius: 200px;
@@ -30,8 +30,8 @@
 @media (min-height: 500px) {
     .table {
         flex: none;
-        height: 55vh;
-        max-height: 520px;
+        height: 60vh;
+        max-height: 600px;
         margin-top: auto;
         margin-bottom: auto;
     }

@@ -240,17 +240,28 @@ export const GameProvider = ({ children }) => {
 
         // Calculate dealer, blinds, and first action
         const dealerIdx = 0;
-        const playerCount = seatedPlayers.length;
         let sbIndex, bbIndex, firstActionIndex;
 
-        if (playerCount === 2) {
+        const getNextActiveSeat = (currentIndex, playersList) => {
+            let nextIndex = currentIndex;
+            let loopCount = 0;
+            do {
+                nextIndex = (nextIndex + 1) % playersList.length;
+                loopCount++;
+            } while (playersList[nextIndex].status === 'out' && loopCount < playersList.length);
+            return nextIndex;
+        };
+
+        const activeCount = seatedPlayers.filter(p => p.status !== 'out').length;
+
+        if (activeCount === 2) {
             sbIndex = dealerIdx;
-            bbIndex = (dealerIdx + 1) % playerCount;
+            bbIndex = getNextActiveSeat(dealerIdx, seatedPlayers);
             firstActionIndex = dealerIdx;
         } else {
-            sbIndex = (dealerIdx + 1) % playerCount;
-            bbIndex = (dealerIdx + 2) % playerCount;
-            firstActionIndex = (dealerIdx + 3) % playerCount;
+            sbIndex = getNextActiveSeat(dealerIdx, seatedPlayers);
+            bbIndex = getNextActiveSeat(sbIndex, seatedPlayers);
+            firstActionIndex = getNextActiveSeat(bbIndex, seatedPlayers);
         }
 
         // Post blinds
@@ -351,16 +362,27 @@ export const GameProvider = ({ children }) => {
 
             // Calc Blinds/Active based on sorted players
             let sbIndex, bbIndex, firstActionIndex;
-            const playerCount = playersBySeat.length;
 
-            if (playerCount === 2) {
+            const getNextActiveSeat = (currentIndex, playersList) => {
+                let nextIndex = currentIndex;
+                let loopCount = 0;
+                do {
+                    nextIndex = (nextIndex + 1) % playersList.length;
+                    loopCount++;
+                } while ((playersList[nextIndex].chips === 0 || playersList[nextIndex].status === 'out') && loopCount < playersList.length);
+                return nextIndex;
+            };
+
+            const activeCount = playersBySeat.filter(p => p.chips > 0).length;
+
+            if (activeCount === 2) {
                 sbIndex = nextDealerIndex;
-                bbIndex = (nextDealerIndex + 1) % playerCount;
+                bbIndex = getNextActiveSeat(nextDealerIndex, playersBySeat);
                 firstActionIndex = nextDealerIndex;
             } else {
-                sbIndex = (nextDealerIndex + 1) % playerCount;
-                bbIndex = (nextDealerIndex + 2) % playerCount;
-                firstActionIndex = (nextDealerIndex + 3) % playerCount;
+                sbIndex = getNextActiveSeat(nextDealerIndex, playersBySeat);
+                bbIndex = getNextActiveSeat(sbIndex, playersBySeat);
+                firstActionIndex = getNextActiveSeat(bbIndex, playersBySeat);
             }
 
             const activePlayers = playersBySeat.map(p => ({
@@ -692,19 +714,31 @@ export const GameProvider = ({ children }) => {
         setGameState(prev => {
             if (prev.gameStage !== 'showdown') return prev;
 
+            const getNextActiveSeat = (currentIndex, playersList) => {
+                let nextIndex = currentIndex;
+                let loopCount = 0;
+                do {
+                    nextIndex = (nextIndex + 1) % playersList.length;
+                    loopCount++;
+                } while (playersList[nextIndex].chips === 0 && loopCount < playersList.length);
+                return nextIndex;
+            };
+
             // Rotate dealer
-            const nextDealerIndex = (prev.dealerIndex + 1) % prev.players.length;
+            const nextDealerIndex = getNextActiveSeat(prev.dealerIndex, prev.players);
 
             // Determine SB/BB/Action
             let sbIndex, bbIndex, firstActionIndex;
-            if (prev.players.length === 2) {
+            const activeCount = prev.players.filter(p => p.chips > 0).length;
+
+            if (activeCount === 2) {
                 sbIndex = nextDealerIndex;
-                bbIndex = (nextDealerIndex + 1) % prev.players.length;
+                bbIndex = getNextActiveSeat(nextDealerIndex, prev.players);
                 firstActionIndex = nextDealerIndex;
             } else {
-                sbIndex = (nextDealerIndex + 1) % prev.players.length;
-                bbIndex = (nextDealerIndex + 2) % prev.players.length;
-                firstActionIndex = (nextDealerIndex + 3) % prev.players.length;
+                sbIndex = getNextActiveSeat(nextDealerIndex, prev.players);
+                bbIndex = getNextActiveSeat(sbIndex, prev.players);
+                firstActionIndex = getNextActiveSeat(bbIndex, prev.players);
             }
 
             const newPlayers = prev.players.map(p => ({

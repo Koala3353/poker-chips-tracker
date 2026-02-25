@@ -289,8 +289,9 @@
 }
 
 .raiseAmountDisplay {
-    background: var(--secondary-color);
-    color: white;
+    background: linear-gradient(135deg, var(--surface-color), var(--border-color));
+    color: var(--primary-color);
+    border: 1.5px solid rgba(var(--primary-rgb), 0.3);
     font-size: 48px;
     font-weight: 800;
     text-align: center;
@@ -312,8 +313,8 @@
     width: 32px;
     height: 32px;
     border-radius: 50%;
-    background: #3b82f6;
-    border: 3px dashed var(--text-primary);
+    background: linear-gradient(135deg, var(--primary-color), #d97706);
+    border: 3px dashed var(--bg-color);
     flex-shrink: 0;
 }
 
@@ -377,13 +378,14 @@
     color: rgba(var(--text-primary-rgb), 0.5);
 }
 
-.blueBtn {
-    background: #3b82f6;
+.actionBtn {
+    background: linear-gradient(135deg, var(--primary-color), #d97706);
+    color: var(--bg-color);
 }
 
 .submitRaiseBtn {
     width: 100%;
-    background: var(--destructive-color);
+    background: linear-gradient(135deg, var(--secondary-color), #059669);
     color: white;
     border: none;
     border-radius: 12px;

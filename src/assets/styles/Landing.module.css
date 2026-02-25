@@ -68,6 +68,26 @@
     max-width: 460px;
 }
 
+.iosInstruction {
+    background: rgba(var(--primary-rgb), 0.1);
+    border: 1px solid rgba(var(--primary-rgb), 0.2);
+    border-radius: 12px;
+    padding: 12px 20px;
+    margin-bottom: 24px;
+    display: inline-block;
+}
+
+.iosInstruction p {
+    font-size: 14px;
+    color: var(--text-primary);
+    margin: 0;
+    line-height: 1.5;
+}
+
+.iosInstruction b {
+    color: var(--primary-color);
+}
+
 .cta {
     background: linear-gradient(135deg, var(--primary-color), #d97706);
     color: var(--bg-color);

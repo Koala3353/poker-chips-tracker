@@ -250,13 +250,13 @@ const Controls = () => {
 
                         <div className={styles.quickBtnGrid}>
                             <button className={`${styles.quickBtn} ${styles.darkBtn}`} onClick={() => setQuickRaise('min')}>Min</button>
-                            <button className={`${styles.quickBtn} ${styles.blueBtn}`} onClick={() => setQuickRaise('max')}>Max</button>
+                            <button className={`${styles.quickBtn} ${styles.actionBtn}`} onClick={() => setQuickRaise('max')}>Max</button>
 
-                            <button className={`${styles.quickBtn} ${styles.blueBtn}`} onClick={() => setQuickRaise('1/3')}>1/3</button>
-                            <button className={`${styles.quickBtn} ${styles.blueBtn}`} onClick={() => setQuickRaise('2/3')}>2/3</button>
+                            <button className={`${styles.quickBtn} ${styles.actionBtn}`} onClick={() => setQuickRaise('1/3')}>1/3</button>
+                            <button className={`${styles.quickBtn} ${styles.actionBtn}`} onClick={() => setQuickRaise('2/3')}>2/3</button>
 
-                            <button className={`${styles.quickBtn} ${styles.blueBtn}`} onClick={() => setQuickRaise('1/2')}>1/2</button>
-                            <button className={`${styles.quickBtn} ${styles.blueBtn}`} onClick={() => setQuickRaise('pot')}>Pot</button>
+                            <button className={`${styles.quickBtn} ${styles.actionBtn}`} onClick={() => setQuickRaise('1/2')}>1/2</button>
+                            <button className={`${styles.quickBtn} ${styles.actionBtn}`} onClick={() => setQuickRaise('pot')}>Pot</button>
                         </div>
 
                         <button

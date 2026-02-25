@@ -76,6 +76,9 @@ const Landing = ({ onStart }) => {
                     A minimal, distraction-free chip tracker for home games.
                     Track bets, blinds, all-ins, and side pots — all from your phone.
                 </p>
+                <div className={styles.iosInstruction}>
+                    <p>🍏 <b>iOS Users:</b> Tap Share &gt; "Add to Home Screen" for the best full-screen experience.</p>
+                </div>
                 <button className={styles.cta} onClick={onStart}>
                     Start a Game
                 </button>
