@@ -58,18 +58,18 @@
 }
 
 .name {
-    font-size: 10px;
+    font-size: 11px;
     font-weight: 500;
     color: var(--text-secondary);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-width: 60px;
+    max-width: 65px;
     line-height: 1.2;
 }
 
 .chips {
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 700;
     color: var(--text-primary);
     line-height: 1.2;
@@ -137,8 +137,8 @@
 .active .card {
     border-color: var(--primary-color);
     box-shadow:
-        0 0 0 1px var(--primary-color),
-        0 0 16px rgba(50, 199, 89, 0.3),
+        0 0 0 2px var(--primary-color),
+        0 0 24px rgba(50, 199, 89, 0.6),
         0 2px 12px rgba(0, 0, 0, 0.4);
 }
 

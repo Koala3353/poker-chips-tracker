@@ -121,29 +121,27 @@ const DealerControls = () => {
                                     </div>
                                 ))}
                             </div>
-                            {gameState.gameStage === 'setup' && (
-                                <div className={styles.addRow}>
-                                    <input
-                                        type="text"
-                                        value={newPlayerName}
-                                        onChange={(e) => setNewPlayerName(e.target.value)}
-                                        placeholder="Player name"
-                                        className={styles.addInput}
-                                        onKeyDown={(e) => e.key === 'Enter' && handleAddPlayer()}
-                                    />
-                                    <input
-                                        type="number"
-                                        value={newBuyIn}
-                                        onChange={(e) => setNewBuyIn(e.target.value)}
-                                        placeholder="Buy-in"
-                                        className={styles.addInput}
-                                        style={{ width: '80px' }}
-                                    />
-                                    <button onClick={handleAddPlayer} className={styles.addBtn} disabled={!newPlayerName.trim()}>
-                                        Add
-                                    </button>
-                                </div>
-                            )}
+                            <div className={styles.addRow}>
+                                <input
+                                    type="text"
+                                    value={newPlayerName}
+                                    onChange={(e) => setNewPlayerName(e.target.value)}
+                                    placeholder="Player name"
+                                    className={styles.addInput}
+                                    onKeyDown={(e) => e.key === 'Enter' && handleAddPlayer()}
+                                />
+                                <input
+                                    type="number"
+                                    value={newBuyIn}
+                                    onChange={(e) => setNewBuyIn(e.target.value)}
+                                    placeholder="Buy-in"
+                                    className={styles.addInput}
+                                    style={{ width: '80px' }}
+                                />
+                                <button onClick={handleAddPlayer} className={styles.addBtn} disabled={!newPlayerName.trim()}>
+                                    Add
+                                </button>
+                            </div>
                         </div>
                     )}
                 </div>

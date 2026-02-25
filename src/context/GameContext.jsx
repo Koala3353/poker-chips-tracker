@@ -150,7 +150,7 @@ export const GameProvider = ({ children }) => {
             if (seatIndex >= 10) return prev;
 
             const newPlayer = {
-                id: Date.now().toString(),
+                id: Date.now().toString() + '-' + Math.random().toString(36).substr(2, 9),
                 name,
                 chips: parseFloat(buyIn),
                 currentBet: 0,
@@ -191,7 +191,14 @@ export const GameProvider = ({ children }) => {
         setGameState(prev => {
             const updatedPlayers = prev.players.map(p => {
                 if (p.id === playerId) {
-                    return { ...p, chips: parseFloat(newAmount) };
+                    const parsed = parseFloat(newAmount);
+                    let newStatus = p.status;
+                    if (parsed === 0 && p.status === 'active') {
+                        newStatus = 'all-in';
+                    } else if (parsed > 0 && p.status === 'all-in') {
+                        newStatus = 'active';
+                    }
+                    return { ...p, chips: parsed, status: newStatus };
                 }
                 return p;
             });
@@ -372,6 +379,7 @@ export const GameProvider = ({ children }) => {
                 const sbAmount = Math.min(prev.smallBlind, sbPlayer.chips);
                 sbPlayer.chips -= sbAmount;
                 sbPlayer.currentBet = sbAmount;
+                if (sbPlayer.chips === 0) sbPlayer.status = 'all-in';
                 currentPot += sbAmount;
             }
 
@@ -379,6 +387,7 @@ export const GameProvider = ({ children }) => {
                 const bbAmount = Math.min(prev.bigBlind, bbPlayer.chips);
                 bbPlayer.chips -= bbAmount;
                 bbPlayer.currentBet = bbAmount;
+                if (bbPlayer.chips === 0) bbPlayer.status = 'all-in';
                 currentPot += bbAmount;
             }
 
@@ -556,10 +565,14 @@ export const GameProvider = ({ children }) => {
             }
 
             // Reset bets for new round
+            const nonFoldedCount = prev.players.filter(p => p.status !== 'folded' && p.status !== 'out').length;
+            const activeCount = prev.players.filter(p => p.status === 'active').length;
+            const noMoreBetting = activeCount <= 1 && nonFoldedCount > 1;
+
             const updatedPlayers = prev.players.map(p => ({
                 ...p,
                 currentBet: 0,
-                hasActed: p.status === 'all-in' || p.status === 'folded' || p.status === 'out'
+                hasActed: p.status === 'all-in' || p.status === 'folded' || p.status === 'out' || noMoreBetting
             }));
 
             // Calculate side pots when entering showdown or at each street

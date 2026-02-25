@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
+import { createPortal } from 'react-dom';
 import { useGame } from '../context/GameContext';
 import styles from '../assets/styles/Controls.module.css';
 
 const Controls = () => {
-    const { gameState, placeBet, goAllIn, fold, check, nextHand } = useGame();
+    const { gameState, placeBet, goAllIn, fold, check, nextHand, resetGame } = useGame();
     const [raiseAmount, setRaiseAmount] = useState('');
 
     const activePlayer = gameState.players[gameState.activePlayerIndex];
@@ -31,6 +32,14 @@ const Controls = () => {
         }
     }, [minRaiseTotal, canAffordRaise]);
 
+    const [showRaiseModal, setShowRaiseModal] = useState(false);
+
+    // Provide default valid raise if modal opens
+    React.useEffect(() => {
+        if (showRaiseModal && !raiseAmount) {
+            setRaiseAmount(minRaiseTotal.toString());
+        }
+    }, [showRaiseModal, minRaiseTotal, raiseAmount]);
 
     const handleFold = () => fold();
     const handleCheck = () => check();
@@ -51,14 +60,58 @@ const Controls = () => {
         const capped = Math.min(amount, playerChips);
         placeBet(capped);
         setRaiseAmount('');
+        setShowRaiseModal(false);
     };
 
     const handleAllIn = () => {
         goAllIn();
     };
 
+    // Quick raise helpers
+    const setQuickRaise = (type) => {
+        if (!canAffordRaise) return;
+        let amount = minRaiseTotal;
+        const currentPot = gameState.pot + toCall; // Pot after calling
+
+        switch (type) {
+            case 'min':
+                amount = minRaiseTotal;
+                break;
+            case 'max':
+                amount = playerChips;
+                break;
+            case '1/3':
+                amount = toCall + Math.floor(currentPot / 3);
+                break;
+            case '1/2':
+                amount = toCall + Math.floor(currentPot / 2);
+                break;
+            case '2/3':
+                amount = toCall + Math.floor((currentPot * 2) / 3);
+                break;
+            case 'pot':
+                amount = toCall + currentPot;
+                break;
+            default:
+                break;
+        }
+
+        // Clamp amount
+        amount = Math.max(minRaiseTotal, Math.min(amount, playerChips));
+        setRaiseAmount(amount.toString());
+    };
+
+    const handleIncrement = (val) => {
+        let current = parseFloat(raiseAmount) || minRaiseTotal;
+        current += val;
+        current = Math.max(minRaiseTotal, Math.min(current, playerChips));
+        setRaiseAmount(current.toString());
+    }
+
     // Show showdown UI
     if (gameState.gameStage === 'showdown') {
+        const canStartNextHand = gameState.players.filter(p => p.chips > 0).length >= 2;
+
         return (
             <div className={styles.container}>
                 <div className={styles.infoBar}>
@@ -69,9 +122,19 @@ const Controls = () => {
                 </div>
                 <div className={styles.showdown}>
                     {gameState.pot === 0 ? (
-                        <button className={styles.nextHandBtn} onClick={nextHand}>
-                            Start Next Hand
-                        </button>
+                        canStartNextHand ? (
+                            <button className={styles.nextHandBtn} onClick={nextHand}>
+                                Start Next Hand
+                            </button>
+                        ) : (
+                            <button
+                                className={styles.nextHandBtn}
+                                style={{ background: 'linear-gradient(135deg, #ff3b30, #e63228)', boxShadow: '0 4px 16px rgba(255, 59, 48, 0.35)' }}
+                                onClick={resetGame}
+                            >
+                                Game Over - Reset Game
+                            </button>
+                        )
                     ) : (
                         <div className={styles.instruction}>Tap a player to award the pot</div>
                     )}
@@ -131,40 +194,82 @@ const Controls = () => {
 
                 {/* Raise Group or All-In */}
                 {canAffordRaise ? (
-                    <div className={styles.raiseGroup}>
-                        <button
-                            className={`${styles.btn} ${styles.raise}`}
-                            onClick={handleRaise}
-                            disabled={!raiseAmount || parseFloat(raiseAmount) < minRaiseTotal || parseFloat(raiseAmount) > playerChips || gameState.isTransitioning}
-                        >
-                            Raise
-                        </button>
-                        <input
-                            type="number"
-                            inputMode="decimal"
-                            pattern="[0-9]*"
-                            value={raiseAmount}
-                            onChange={(e) => setRaiseAmount(e.target.value)}
-                            placeholder={`Min ${minRaiseTotal}`}
-                            className={styles.input}
-                            max={playerChips}
-                            disabled={gameState.isTransitioning}
-                        />
-                    </div>
+                    <button
+                        className={`${styles.btn} ${styles.raise}`}
+                        onClick={() => setShowRaiseModal(true)}
+                        disabled={gameState.isTransitioning}
+                    >
+                        Raise...
+                    </button>
                 ) : (
                     !canCheck && canAffordCall && (
-                        <div className={styles.raiseGroup}>
-                            <button
-                                className={`${styles.btn} ${styles.allIn}`}
-                                onClick={handleAllIn}
-                                disabled={gameState.isTransitioning}
-                            >
-                                All In ${playerChips}
-                            </button>
-                        </div>
+                        <button
+                            className={`${styles.btn} ${styles.allIn}`}
+                            onClick={handleAllIn}
+                            disabled={gameState.isTransitioning}
+                        >
+                            All In ${playerChips}
+                        </button>
                     )
                 )}
             </div>
+
+            {/* Raise Modal */}
+            {showRaiseModal && createPortal(
+                <div className={styles.raiseModalOverlay}>
+                    <div className={styles.raiseModal}>
+                        <button className={styles.closeModalBtn} onClick={() => setShowRaiseModal(false)}>
+                            &times;
+                        </button>
+
+                        <div className={styles.raiseAmountDisplay}>
+                            {(parseFloat(raiseAmount) || 0).toFixed(0)}
+                        </div>
+
+                        <div className={styles.sliderContainer}>
+                            <div className={styles.sliderChipIcon}></div>
+                            <input
+                                type="range"
+                                className={styles.slider}
+                                min={minRaiseTotal}
+                                max={playerChips}
+                                step={gameState.bigBlind}
+                                value={raiseAmount || minRaiseTotal}
+                                onChange={(e) => setRaiseAmount(e.target.value)}
+                            />
+                        </div>
+
+                        <div className={styles.incrementRow}>
+                            <button className={styles.incBtn} onClick={() => handleIncrement(-gameState.bigBlind)}>
+                                &minus;
+                            </button>
+                            <button className={styles.incBtn} onClick={() => handleIncrement(gameState.bigBlind)}>
+                                &#43;
+                            </button>
+                        </div>
+
+                        <div className={styles.quickBtnGrid}>
+                            <button className={`${styles.quickBtn} ${styles.darkBtn}`} onClick={() => setQuickRaise('min')}>Min</button>
+                            <button className={`${styles.quickBtn} ${styles.blueBtn}`} onClick={() => setQuickRaise('max')}>Max</button>
+
+                            <button className={`${styles.quickBtn} ${styles.blueBtn}`} onClick={() => setQuickRaise('1/3')}>1/3</button>
+                            <button className={`${styles.quickBtn} ${styles.blueBtn}`} onClick={() => setQuickRaise('2/3')}>2/3</button>
+
+                            <button className={`${styles.quickBtn} ${styles.blueBtn}`} onClick={() => setQuickRaise('1/2')}>1/2</button>
+                            <button className={`${styles.quickBtn} ${styles.blueBtn}`} onClick={() => setQuickRaise('pot')}>Pot</button>
+                        </div>
+
+                        <button
+                            className={styles.submitRaiseBtn}
+                            onClick={handleRaise}
+                            disabled={!raiseAmount || parseFloat(raiseAmount) < minRaiseTotal || parseFloat(raiseAmount) > playerChips}
+                        >
+                            Bet
+                        </button>
+                    </div>
+                </div>,
+                document.body
+            )}
         </div>
     );
 };
