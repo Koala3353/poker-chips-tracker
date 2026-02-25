@@ -79,6 +79,14 @@ const Landing = ({ onStart }) => {
                 <button className={styles.cta} onClick={onStart}>
                     Start a Game
                 </button>
+
+                <div className={styles.showcase}>
+                    <img
+                        src="/assets/screenshot.png"
+                        alt="Poker Chips Tracker Game Board"
+                        className={styles.showcaseImg}
+                    />
+                </div>
             </header>
 
             <section className={styles.features}>

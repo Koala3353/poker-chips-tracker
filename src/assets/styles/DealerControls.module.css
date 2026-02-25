@@ -2,7 +2,7 @@
     position: absolute;
     top: 20px;
     right: 20px;
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(var(--text-primary-rgb), 0.1);
     color: var(--text-secondary);
     border: 1px solid var(--border-color);
     padding: 8px 12px;
@@ -42,7 +42,7 @@
 }
 
 .actionBtn {
-    background-color: rgba(255, 255, 255, 0.05);
+    background-color: rgba(var(--text-primary-rgb), 0.05);
     border: none;
     color: var(--text-primary);
     padding: 16px;
@@ -55,7 +55,7 @@
 }
 
 .actionBtn:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(var(--text-primary-rgb), 0.1);
 }
 
 .danger {
@@ -66,7 +66,7 @@
     margin-top: 24px;
     /* Separate from other actions */
     font-weight: 800;
-    box-shadow: 0 4px 12px rgba(255, 59, 48, 0.3);
+    box-shadow: 0 4px 12px rgba(var(--destructive-rgb), 0.3);
 }
 
 .winnerModalOverlay {
@@ -133,7 +133,7 @@
     padding: 8px 4px;
     font-size: 14px;
     color: var(--text-primary);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid rgba(var(--text-primary-rgb), 0.05);
 }
 
 .removeBtn {
@@ -160,7 +160,7 @@
 
 .addInput {
     flex: 1;
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(var(--text-primary-rgb), 0.05);
     border: 1px solid var(--border-color);
     color: var(--text-primary);
     padding: 8px;
@@ -206,8 +206,9 @@
     font-weight: 600;
     cursor: pointer;
 }
+
 .selected {
-    background-color: var(--success-color, #4cd964);
-    border: 2px solid #fff;
-    box-shadow: 0 0 10px rgba(76, 217, 100, 0.5);
+    background-color: var(--secondary-color);
+    border: 2px solid var(--text-primary);
+    box-shadow: 0 0 10px rgba(var(--secondary-rgb), 0.5);
 }

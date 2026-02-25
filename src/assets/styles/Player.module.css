@@ -9,17 +9,17 @@
     z-index: 10;
 }
 
-/* ── Main Card ────────────────────────────────── */
 .card {
     position: relative;
     display: flex;
     align-items: center;
     gap: 6px;
     padding: 4px 10px 4px 4px;
-    background: rgba(30, 30, 32, 0.85);
+    background: rgba(var(--bg-color-rgb), 0.85);
+    /* Fallback */
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(var(--text-primary-rgb), 0.08);
     border-radius: 40px;
     min-width: 80px;
     transition: all 0.3s ease;
@@ -32,13 +32,12 @@
     gap: 6px;
 }
 
-/* ── Avatar Circle ────────────────────────────── */
 .avatar {
     width: 28px;
     height: 28px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #2a2a2e, #3a3a3e);
-    border: 1.5px solid rgba(255, 255, 255, 0.12);
+    background: linear-gradient(135deg, var(--surface-color), var(--border-color));
+    border: 1.5px solid rgba(var(--text-primary-rgb), 0.12);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -90,7 +89,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
     border: 1px solid rgba(255, 215, 0, 0.6);
 }
 
@@ -100,8 +98,8 @@
     top: -18px;
     left: 50%;
     transform: translateX(-50%);
-    background: rgba(50, 199, 89, 0.15);
-    border: 1px solid rgba(50, 199, 89, 0.4);
+    background: rgba(var(--primary-rgb), 0.15);
+    border: 1px solid rgba(var(--primary-rgb), 0.4);
     padding: 1px 8px;
     border-radius: 20px;
     font-size: 10px;
@@ -119,16 +117,16 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%) rotate(-12deg);
-    background: linear-gradient(135deg, #ff3b30, #ff6b5e);
+    background: linear-gradient(135deg, var(--destructive-color), #ff6b5e);
     color: white;
     padding: 2px 8px;
     border-radius: 4px;
     font-size: 8px;
     font-weight: 900;
     letter-spacing: 1px;
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    border: 1px solid rgba(var(--text-primary-rgb), 0.3);
     z-index: 30;
-    box-shadow: 0 2px 8px rgba(255, 59, 48, 0.5);
+    box-shadow: 0 2px 8px rgba(var(--destructive-rgb), 0.5);
 }
 
 /* ── States ───────────────────────────────────── */
@@ -138,19 +136,18 @@
     border-color: var(--primary-color);
     box-shadow:
         0 0 0 2px var(--primary-color),
-        0 0 24px rgba(50, 199, 89, 0.6),
+        0 0 24px rgba(var(--primary-rgb), 0.6),
         0 2px 12px rgba(0, 0, 0, 0.4);
 }
 
 .active .avatar {
-    background: linear-gradient(135deg, #1a3a22, #2a4a32);
+    background: linear-gradient(135deg, var(--surface-color), var(--border-color));
     border-color: var(--primary-color);
 }
 
-/* Selected — highlight for seat swapping */
 .selected .card {
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 2px var(--primary-color), 0 0 20px rgba(50, 215, 75, 0.4);
+    box-shadow: 0 0 0 2px var(--primary-color), 0 0 20px rgba(var(--primary-rgb), 0.4);
     transform: scale(1.05);
 }
 
