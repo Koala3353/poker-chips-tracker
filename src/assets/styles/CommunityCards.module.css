@@ -26,3 +26,16 @@
             transparent 2px,
             transparent 4px);
 }
+
+@media (max-height: 430px) {
+    .container {
+        margin-top: 8px;
+        gap: 4px;
+    }
+
+    .card {
+        width: 30px;
+        height: 42px;
+        border-radius: 4px;
+    }
+}

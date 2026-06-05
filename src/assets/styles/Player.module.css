@@ -209,3 +209,43 @@
         padding: 3px 10px;
     }
 }
+
+@media (max-height: 430px) {
+    .card {
+        gap: 4px;
+        padding: 3px 8px 3px 3px;
+        min-width: 52px;
+    }
+
+    .avatar {
+        width: 20px;
+        height: 20px;
+        font-size: 11px;
+    }
+
+    .name {
+        font-size: 10px;
+        max-width: 48px;
+    }
+
+    .chips {
+        font-size: 11px;
+    }
+
+    .dealerChip {
+        width: 13px;
+        height: 13px;
+        font-size: 7px;
+    }
+
+    .betBadge {
+        top: -16px;
+        font-size: 9px;
+        padding: 1px 6px;
+    }
+
+    .allInBadge {
+        font-size: 7px;
+        padding: 2px 6px;
+    }
+}

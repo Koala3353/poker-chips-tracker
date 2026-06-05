@@ -3,9 +3,21 @@ import { createPortal } from 'react-dom';
 import { useGame } from '../context/GameContext';
 import styles from '../assets/styles/Controls.module.css';
 
+const LAST_RAISE_KEY = 'poker-tracker-last-raise';
+const BET_STEP_KEY = 'poker-tracker-bet-step';
+
+const getStoredNumber = (key) => {
+    if (typeof window === 'undefined') return null;
+    const saved = localStorage.getItem(key);
+    const parsed = parseFloat(saved);
+    return Number.isFinite(parsed) ? parsed : null;
+};
+
 const Controls = () => {
     const { gameState, placeBet, goAllIn, fold, check, nextHand, resetGame } = useGame();
     const [raiseAmount, setRaiseAmount] = useState('');
+    const [lastRaiseAmount, setLastRaiseAmount] = useState(() => getStoredNumber(LAST_RAISE_KEY));
+    const [betStep, setBetStep] = useState(() => getStoredNumber(BET_STEP_KEY) || gameState.bigBlind);
 
     const activePlayer = gameState.players[gameState.activePlayerIndex];
 
@@ -24,22 +36,58 @@ const Controls = () => {
     const minRaiseTotal = toCall + minRaise;
     const canAffordRaise = playerChips >= minRaiseTotal;
 
-    React.useEffect(() => {
-        if (canAffordRaise) {
-            setRaiseAmount(minRaiseTotal.toString());
-        } else {
-            setRaiseAmount('');
+    const clampRaise = React.useCallback((value, alignToStep = true) => {
+        let amount = value;
+        if (alignToStep && betStep) {
+            amount = Math.round(amount / betStep) * betStep;
         }
-    }, [minRaiseTotal, canAffordRaise]);
+        return Math.max(minRaiseTotal, Math.min(amount, playerChips));
+    }, [betStep, minRaiseTotal, playerChips]);
+
+    const defaultRaiseAmount = React.useMemo(() => {
+        if (!canAffordRaise) return null;
+        const candidate = lastRaiseAmount && lastRaiseAmount >= minRaiseTotal ? lastRaiseAmount : minRaiseTotal;
+        return clampRaise(candidate, false);
+    }, [canAffordRaise, lastRaiseAmount, minRaiseTotal, clampRaise]);
+
+    React.useEffect(() => {
+        if (defaultRaiseAmount === null) {
+            setRaiseAmount('');
+            return;
+        }
+        setRaiseAmount(defaultRaiseAmount.toString());
+    }, [defaultRaiseAmount]);
 
     const [showRaiseModal, setShowRaiseModal] = useState(false);
 
     // Provide default valid raise if modal opens
     React.useEffect(() => {
         if (showRaiseModal && !raiseAmount) {
-            setRaiseAmount(minRaiseTotal.toString());
+            if (defaultRaiseAmount !== null) {
+                setRaiseAmount(defaultRaiseAmount.toString());
+            }
         }
-    }, [showRaiseModal, minRaiseTotal, raiseAmount]);
+    }, [showRaiseModal, defaultRaiseAmount, raiseAmount]);
+
+    React.useEffect(() => {
+        if (!betStep || betStep < gameState.bigBlind) {
+            setBetStep(gameState.bigBlind);
+        }
+    }, [betStep, gameState.bigBlind]);
+
+    React.useEffect(() => {
+        if (typeof window === 'undefined') return;
+        if (betStep) {
+            localStorage.setItem(BET_STEP_KEY, betStep.toString());
+        }
+    }, [betStep]);
+
+    React.useEffect(() => {
+        if (typeof window === 'undefined') return;
+        if (lastRaiseAmount !== null) {
+            localStorage.setItem(LAST_RAISE_KEY, lastRaiseAmount.toString());
+        }
+    }, [lastRaiseAmount]);
 
     const handleFold = () => fold();
     const handleCheck = () => check();
@@ -56,9 +104,9 @@ const Controls = () => {
     const handleRaise = () => {
         const amount = parseFloat(raiseAmount);
         if (!amount || isNaN(amount)) return;
-        // Cap at player's chips
-        const capped = Math.min(amount, playerChips);
+        const capped = clampRaise(amount);
         placeBet(capped);
+        setLastRaiseAmount(capped);
         setRaiseAmount('');
         setShowRaiseModal(false);
     };
@@ -96,17 +144,29 @@ const Controls = () => {
                 break;
         }
 
-        // Clamp amount
-        amount = Math.max(minRaiseTotal, Math.min(amount, playerChips));
-        setRaiseAmount(amount.toString());
+        const clamped = type === 'min' ? clampRaise(amount, false) : clampRaise(amount);
+        setRaiseAmount(clamped.toString());
     };
 
-    const handleIncrement = (val) => {
-        let current = parseFloat(raiseAmount) || minRaiseTotal;
-        current += val;
-        current = Math.max(minRaiseTotal, Math.min(current, playerChips));
-        setRaiseAmount(current.toString());
-    }
+    const handleIncrement = (direction) => {
+        const current = parseFloat(raiseAmount) || defaultRaiseAmount || minRaiseTotal;
+        const nextAmount = clampRaise(current + (betStep || gameState.bigBlind) * direction);
+        setRaiseAmount(nextAmount.toString());
+    };
+
+    const handleRaiseBlur = () => {
+        if (!raiseAmount) return;
+        const amount = parseFloat(raiseAmount);
+        if (!amount || isNaN(amount)) {
+            if (defaultRaiseAmount !== null) {
+                setRaiseAmount(defaultRaiseAmount.toString());
+            }
+            return;
+        }
+        setRaiseAmount(clampRaise(amount).toString());
+    };
+
+    const stepOptions = [1, 2, 5, 10];
 
     // Show showdown UI
     if (gameState.gameStage === 'showdown') {
@@ -222,9 +282,30 @@ const Controls = () => {
                             &times;
                         </button>
 
-                        <div className={styles.raiseAmountDisplay}>
-                            {(parseFloat(raiseAmount) || 0).toFixed(0)}
+                        <div className={styles.raiseMeta}>
+                            <span className={styles.raiseLabel}>Raise To</span>
+                            <span className={styles.raiseRange}>Min ${minRaiseTotal} · Max ${playerChips}</span>
+                            {lastRaiseAmount && (
+                                <button
+                                    className={styles.lastRaiseBtn}
+                                    onClick={() => setRaiseAmount(clampRaise(lastRaiseAmount, false).toString())}
+                                >
+                                    Last ${lastRaiseAmount}
+                                </button>
+                            )}
                         </div>
+                        <input
+                            type="number"
+                            inputMode="numeric"
+                            pattern="[0-9]*"
+                            min={minRaiseTotal}
+                            max={playerChips}
+                            step={betStep || gameState.bigBlind}
+                            className={styles.raiseAmountInput}
+                            value={raiseAmount}
+                            onChange={(e) => setRaiseAmount(e.target.value)}
+                            onBlur={handleRaiseBlur}
+                        />
 
                         <div className={styles.sliderContainer}>
                             <div className={styles.sliderChipIcon}></div>
@@ -233,17 +314,53 @@ const Controls = () => {
                                 className={styles.slider}
                                 min={minRaiseTotal}
                                 max={playerChips}
-                                step={gameState.bigBlind}
-                                value={raiseAmount || minRaiseTotal}
+                                step={betStep || gameState.bigBlind}
+                                value={raiseAmount || defaultRaiseAmount || minRaiseTotal}
                                 onChange={(e) => setRaiseAmount(e.target.value)}
                             />
                         </div>
 
+                        <div className={styles.stepRow}>
+                            <span className={styles.stepLabel}>Step Size</span>
+                            <div className={styles.stepOptions}>
+                                {stepOptions.map((multiplier) => {
+                                    const stepValue = gameState.bigBlind * multiplier;
+                                    const isActive = betStep === stepValue;
+                                    return (
+                                        <button
+                                            key={multiplier}
+                                            className={`${styles.stepBtn} ${isActive ? styles.stepBtnActive : ''}`}
+                                            onClick={() => setBetStep(stepValue)}
+                                        >
+                                            {multiplier}x BB
+                                        </button>
+                                    );
+                                })}
+                            </div>
+                            <div className={styles.stepCustom}>
+                                <span>Custom</span>
+                                <input
+                                    type="number"
+                                    inputMode="numeric"
+                                    pattern="[0-9]*"
+                                    min={gameState.bigBlind}
+                                    step={gameState.bigBlind}
+                                    value={betStep}
+                                    onChange={(e) => {
+                                        const next = parseFloat(e.target.value);
+                                        if (!next || isNaN(next)) return;
+                                        setBetStep(Math.max(gameState.bigBlind, next));
+                                    }}
+                                    className={styles.stepInput}
+                                />
+                            </div>
+                        </div>
+
                         <div className={styles.incrementRow}>
-                            <button className={styles.incBtn} onClick={() => handleIncrement(-gameState.bigBlind)}>
+                            <button className={styles.incBtn} onClick={() => handleIncrement(-1)}>
                                 &minus;
                             </button>
-                            <button className={styles.incBtn} onClick={() => handleIncrement(gameState.bigBlind)}>
+                            <button className={styles.incBtn} onClick={() => handleIncrement(1)}>
                                 &#43;
                             </button>
                         </div>

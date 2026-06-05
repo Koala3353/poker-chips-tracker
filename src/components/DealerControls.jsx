@@ -85,6 +85,7 @@ const DealerControls = () => {
                                                 <span>{p.name}</span>
                                                 <input
                                                     type="number"
+                                                    inputMode="numeric"
                                                     value={editChipsAmount}
                                                     onChange={(e) => setEditChipsAmount(e.target.value)}
                                                     className={styles.addInput}
@@ -132,6 +133,7 @@ const DealerControls = () => {
                                 />
                                 <input
                                     type="number"
+                                    inputMode="numeric"
                                     value={newBuyIn}
                                     onChange={(e) => setNewBuyIn(e.target.value)}
                                     placeholder="Buy-in"
