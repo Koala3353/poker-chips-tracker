@@ -1,11 +1,11 @@
 .toggleButton {
     position: absolute;
-    top: 20px;
-    right: 20px;
+    top: calc(12px + var(--sai-top));
+    right: calc(12px + var(--sai-right));
     background-color: rgba(var(--text-primary-rgb), 0.1);
     color: var(--text-secondary);
     border: 1px solid var(--border-color);
-    padding: 8px 12px;
+    padding: 7px 12px;
     border-radius: 20px;
     font-size: 12px;
     cursor: pointer;
@@ -15,8 +15,8 @@
 
 .menu {
     position: absolute;
-    top: 60px;
-    right: 20px;
+    top: calc(48px + var(--sai-top));
+    right: calc(12px + var(--sai-right));
     background-color: var(--surface-color);
     border: 1px solid var(--border-color);
     border-radius: 12px;
@@ -211,4 +211,34 @@
     background-color: var(--secondary-color);
     border: 2px solid var(--text-primary);
     box-shadow: 0 0 10px rgba(var(--secondary-rgb), 0.5);
+}
+
+@media (max-height: 430px) {
+    .toggleButton {
+        padding: 6px 10px;
+        font-size: 11px;
+    }
+
+    .menu {
+        width: 190px;
+        padding: 12px;
+    }
+
+    .menu h3 {
+        font-size: 12px;
+    }
+
+    .actionBtn {
+        padding: 12px;
+        font-size: 14px;
+    }
+
+    .playerBtn {
+        padding: 12px;
+        font-size: 14px;
+    }
+
+    .winnerModal {
+        padding: 16px;
+    }
 }

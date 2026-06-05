@@ -261,6 +261,7 @@
     background: var(--surface-color);
     width: 100%;
     max-width: 360px;
+    max-height: min(90vh, 560px);
     border-radius: 20px;
     padding: 24px 20px;
     display: flex;
@@ -268,6 +269,7 @@
     gap: 16px;
     position: relative;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    overflow-y: auto;
 }
 
 .closeModalBtn {
@@ -288,7 +290,38 @@
     z-index: 10;
 }
 
-.raiseAmountDisplay {
+.raiseMeta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.raiseLabel {
+    font-size: 11px;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    font-weight: 600;
+}
+
+.raiseRange {
+    font-size: 11px;
+    color: rgba(var(--text-primary-rgb), 0.55);
+}
+
+.lastRaiseBtn {
+    border: 1px solid rgba(var(--primary-rgb), 0.25);
+    background: rgba(var(--primary-rgb), 0.12);
+    color: var(--primary-color);
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 12px;
+    cursor: pointer;
+}
+
+.raiseAmountInput {
     background: linear-gradient(135deg, var(--surface-color), var(--border-color));
     color: var(--primary-color);
     border: 1.5px solid rgba(var(--primary-rgb), 0.3);
@@ -299,6 +332,16 @@
     padding: 16px 0;
     margin-bottom: 8px;
     box-shadow: inset 0 -4px 0 rgba(0, 0, 0, 0.15);
+    width: 100%;
+    outline: none;
+    appearance: textfield;
+    -webkit-appearance: textfield;
+}
+
+.raiseAmountInput::-webkit-outer-spin-button,
+.raiseAmountInput::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }
 
 .sliderContainer {
@@ -400,4 +443,138 @@
 .submitRaiseBtn:disabled {
     opacity: 0.5;
     cursor: not-allowed;
+}
+
+.stepRow {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.stepLabel {
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: rgba(var(--text-primary-rgb), 0.5);
+    font-weight: 600;
+}
+
+.stepOptions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    justify-content: center;
+}
+
+.stepBtn {
+    border: 1px solid rgba(var(--text-primary-rgb), 0.12);
+    background: rgba(var(--text-primary-rgb), 0.06);
+    color: var(--text-primary);
+    border-radius: 999px;
+    padding: 6px 10px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.stepBtnActive {
+    background: var(--primary-color);
+    color: var(--bg-color);
+    border-color: transparent;
+}
+
+.stepCustom {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 11px;
+    color: var(--text-secondary);
+}
+
+.stepInput {
+    width: 90px;
+    border-radius: 10px;
+    border: 1px solid rgba(var(--text-primary-rgb), 0.12);
+    background: rgba(var(--text-primary-rgb), 0.06);
+    color: var(--text-primary);
+    padding: 6px 8px;
+    font-size: 13px;
+    font-weight: 600;
+    text-align: center;
+    outline: none;
+    appearance: textfield;
+    -webkit-appearance: textfield;
+}
+
+.stepInput::-webkit-outer-spin-button,
+.stepInput::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+@media (max-height: 430px) {
+    .container {
+        padding: 4px 12px;
+        padding-bottom: max(4px, var(--sai-bottom));
+    }
+
+    .infoBar {
+        margin-bottom: 4px;
+    }
+
+    .label {
+        font-size: 8px;
+    }
+
+    .value {
+        font-size: 16px;
+    }
+
+    .toCall {
+        font-size: 11px;
+    }
+
+    .btn {
+        padding: 8px 6px;
+        font-size: 12px;
+        border-radius: 8px;
+    }
+
+    .raiseModal {
+        max-width: 320px;
+        padding: 18px 16px;
+        gap: 12px;
+    }
+
+    .raiseAmountInput {
+        font-size: 36px;
+        padding: 12px 0;
+        margin-bottom: 4px;
+    }
+
+    .sliderContainer {
+        padding: 6px 0;
+    }
+
+    .sliderChipIcon {
+        width: 26px;
+        height: 26px;
+        border-width: 2px;
+    }
+
+    .incBtn {
+        font-size: 22px;
+        padding: 6px 0;
+    }
+
+    .quickBtn {
+        padding: 10px 0;
+        font-size: 15px;
+    }
+
+    .submitRaiseBtn {
+        padding: 12px 0;
+        font-size: 18px;
+    }
 }

@@ -315,3 +315,73 @@
     transform: scale(0.98);
     box-shadow: 0 2px 8px rgba(var(--primary-rgb), 0.3);
 }
+
+@media (max-height: 430px) {
+    .container {
+        padding: 8px 12px 0;
+    }
+
+    .header {
+        margin-bottom: 4px;
+    }
+
+    .title {
+        font-size: 18px;
+    }
+
+    .subtitle {
+        font-size: 10px;
+    }
+
+    .configRow {
+        gap: 6px;
+        margin-bottom: 6px;
+    }
+
+    .configCard {
+        padding: 4px 8px;
+    }
+
+    .configLabel {
+        font-size: 8px;
+    }
+
+    .configInput {
+        font-size: 14px;
+    }
+
+    .tableWrapper {
+        max-width: 480px;
+        max-height: 280px;
+    }
+
+    .tableLabel {
+        font-size: 9px;
+    }
+
+    .playerPill {
+        padding: 3px 8px 3px 6px;
+        font-size: 10px;
+        min-width: 54px;
+    }
+
+    .playerInitial {
+        width: 18px;
+        height: 18px;
+        font-size: 9px;
+    }
+
+    .addSeatBtn {
+        width: 30px;
+        height: 30px;
+    }
+
+    .footer {
+        padding: 6px 0;
+    }
+
+    .startButton {
+        padding: 10px;
+        font-size: 14px;
+    }
+}

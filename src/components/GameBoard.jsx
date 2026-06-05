@@ -25,6 +25,31 @@ const GameBoard = () => {
         { left: '80%', top: '80%' }, // 9
     ];
 
+    const COMPACT_SEAT_POSITIONS = [
+        { left: '50%', top: '84%' }, // 0: Bottom (Hero)
+        { left: '18%', top: '76%' }, // 1
+        { left: '4%', top: '58%' }, // 2
+        { left: '8%', top: '34%' }, // 3
+        { left: '28%', top: '18%' }, // 4
+        { left: '50%', top: '16%' }, // 5: Top
+        { left: '72%', top: '18%' }, // 6
+        { left: '92%', top: '34%' }, // 7
+        { left: '96%', top: '58%' }, // 8
+        { left: '82%', top: '76%' }, // 9
+    ];
+
+    const [isCompact, setIsCompact] = React.useState(() => (
+        typeof window !== 'undefined' ? window.innerHeight <= 430 : false
+    ));
+
+    useEffect(() => {
+        const handleResize = () => {
+            setIsCompact(window.innerHeight <= 430);
+        };
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
     const handleSeatClick = (seatIndex) => {
         if (selectedPlayerId) {
             // If a player is selected, move them to this seat (or swap if occupied)
@@ -122,7 +147,7 @@ const GameBoard = () => {
                 </div>
 
                 {/* Render 10 Seats */}
-                {SEAT_POSITIONS.map((pos, index) => {
+                {(isCompact ? COMPACT_SEAT_POSITIONS : SEAT_POSITIONS).map((pos, index) => {
                     const player = gameState.players.find(p => p.seatIndex === index);
 
                     return (

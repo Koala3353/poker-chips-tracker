@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useGame } from '../context/GameContext';
 import styles from '../assets/styles/GameSetup.module.css';
 
@@ -15,11 +15,53 @@ const SEAT_POSITIONS = [
     { left: '80%', top: '82%' },   // 9: Bottom-right
 ];
 
+const COMPACT_SEAT_POSITIONS = [
+    { left: '50%', top: '86%' },   // 0: Bottom center
+    { left: '18%', top: '76%' },   // 1: Bottom-left
+    { left: '4%', top: '58%' },    // 2: Left-lower
+    { left: '6%', top: '36%' },    // 3: Left-upper
+    { left: '22%', top: '18%' },   // 4: Top-left
+    { left: '50%', top: '14%' },   // 5: Top center
+    { left: '78%', top: '18%' },   // 6: Top-right
+    { left: '94%', top: '36%' },   // 7: Right-upper
+    { left: '96%', top: '58%' },   // 8: Right-lower
+    { left: '82%', top: '76%' },   // 9: Bottom-right
+];
+
+const SETUP_SETTINGS_KEY = 'poker-tracker-setup';
+
 const GameSetup = () => {
     const { addPlayer, removePlayer, updateBlinds, startGame, gameState } = useGame();
-    const [buyIn, setBuyIn] = useState('1000');
-    const [sb, setSb] = useState(gameState.smallBlind);
-    const [bb, setBb] = useState(gameState.bigBlind);
+    const [buyIn, setBuyIn] = useState(() => {
+        const saved = localStorage.getItem(SETUP_SETTINGS_KEY);
+        if (!saved) return '1000';
+        try {
+            const parsed = JSON.parse(saved);
+            return parsed.buyIn ?? '1000';
+        } catch {
+            return '1000';
+        }
+    });
+    const [sb, setSb] = useState(() => {
+        const saved = localStorage.getItem(SETUP_SETTINGS_KEY);
+        if (!saved) return gameState.smallBlind;
+        try {
+            const parsed = JSON.parse(saved);
+            return parsed.sb ?? gameState.smallBlind;
+        } catch {
+            return gameState.smallBlind;
+        }
+    });
+    const [bb, setBb] = useState(() => {
+        const saved = localStorage.getItem(SETUP_SETTINGS_KEY);
+        if (!saved) return gameState.bigBlind;
+        try {
+            const parsed = JSON.parse(saved);
+            return parsed.bb ?? gameState.bigBlind;
+        } catch {
+            return gameState.bigBlind;
+        }
+    });
     const [addingSeatIndex, setAddingSeatIndex] = useState(null);
     const [newPlayerName, setNewPlayerName] = useState('');
     const [layouts, setLayouts] = useState(() => {
@@ -28,6 +70,21 @@ const GameSetup = () => {
     });
     const [showLayouts, setShowLayouts] = useState(false);
     const [layoutName, setLayoutName] = useState('');
+    const [isCompact, setIsCompact] = useState(() => (
+        typeof window !== 'undefined' ? window.innerHeight <= 430 : false
+    ));
+
+    useEffect(() => {
+        const handleResize = () => {
+            setIsCompact(window.innerHeight <= 430);
+        };
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
+    useEffect(() => {
+        localStorage.setItem(SETUP_SETTINGS_KEY, JSON.stringify({ buyIn, sb, bb }));
+    }, [buyIn, sb, bb]);
 
     const saveLayout = () => {
         if (!layoutName.trim() || gameState.players.length === 0) return;
@@ -173,6 +230,8 @@ const GameSetup = () => {
                         <span className={styles.inputPrefix}>$</span>
                         <input
                             type="number"
+                            inputMode="numeric"
+                            min="1"
                             value={buyIn}
                             onChange={(e) => setBuyIn(e.target.value)}
                             className={styles.configInput}
@@ -185,6 +244,8 @@ const GameSetup = () => {
                         <span className={styles.inputPrefix}>$</span>
                         <input
                             type="number"
+                            inputMode="numeric"
+                            min="1"
                             value={sb}
                             onChange={(e) => setSb(e.target.value)}
                             className={styles.configInput}
@@ -197,6 +258,8 @@ const GameSetup = () => {
                         <span className={styles.inputPrefix}>$</span>
                         <input
                             type="number"
+                            inputMode="numeric"
+                            min="1"
                             value={bb}
                             onChange={(e) => setBb(e.target.value)}
                             className={styles.configInput}
@@ -212,7 +275,7 @@ const GameSetup = () => {
                         <div className={styles.tableLabel}>Tap a seat to add a player</div>
                     </div>
 
-                    {SEAT_POSITIONS.map((pos, index) => {
+                    {(isCompact ? COMPACT_SEAT_POSITIONS : SEAT_POSITIONS).map((pos, index) => {
                         const player = gameState.players.find(p => p.seatIndex === index);
 
                         return (

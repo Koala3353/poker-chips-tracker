@@ -155,3 +155,55 @@
     border-radius: 12px;
     white-space: nowrap;
 }
+
+@media (max-height: 430px) {
+    .board {
+        padding-top: calc(var(--sai-top) + 4px);
+    }
+
+    .table {
+        width: 98%;
+        border-radius: 160px;
+        border-width: 3px;
+    }
+
+    .table::after {
+        border-radius: 156px;
+    }
+
+    .potContainer {
+        top: 40%;
+        gap: 0;
+    }
+
+    .potLabel {
+        font-size: 9px;
+    }
+
+    .potValue {
+        font-size: 22px;
+    }
+
+    .stageLabel {
+        font-size: 9px;
+        padding: 1px 8px;
+    }
+
+    .sidePots {
+        gap: 4px;
+    }
+
+    .sidePot {
+        font-size: 9px;
+        padding: 1px 6px;
+    }
+
+    .emptySeat {
+        width: 30px;
+        height: 30px;
+    }
+
+    .plusIcon {
+        font-size: 16px;
+    }
+}
